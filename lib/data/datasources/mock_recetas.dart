@@ -1,0 +1,38 @@
+import 'package:receta_app/data/models/receta_model.dart';
+
+final List<RecetaModel> recetasMock = [
+  RecetaModel(
+    id: '1',
+    titulo: 'Tortilla de Patatas',
+    descripcion: 'Clásica receta española de tortilla con patatas y cebolla.',
+    ingredientes: ['4 huevos', '3 patatas', '1 cebolla', 'sal', 'aceite de oliva'],
+    pasos: ['Pelar y cortar patatas', 'Freír patatas y cebolla', 'Batir huevos', 'Mezclar todo y cocinar'],
+    imagenUrl: 'https://example.com/tortilla.jpg',
+    tiempoMinutos: 25,
+    dificultad: 'media',
+    tipoComida: 'cena',
+    dietas: ['vegetariana'],
+    autor: 'Chef Carlos',
+    valoracion: 4.6,
+    calorias: 350,
+    creadaEn: DateTime.now(),
+    pais: 'España',
+  ),
+  RecetaModel(
+    id: '2',
+    titulo: 'Sushi Clásico',
+    descripcion: 'Delicioso sushi japonés con arroz y pescado fresco.',
+    ingredientes: ['arroz para sushi', 'vinagre de arroz', 'pescado fresco', 'alga nori'],
+    pasos: ['Preparar arroz', 'Cortar ingredientes', 'Enrollar sushi', 'Cortar y servir'],
+    imagenUrl: 'https://example.com/sushi.jpg',
+    tiempoMinutos: 40,
+    dificultad: 'difícil',
+    tipoComida: 'almuerzo',
+    dietas: [],
+    autor: 'Chef Aiko',
+    valoracion: 4.9,
+    calorias: 300,
+    creadaEn: DateTime.now(),
+    pais: 'Japón',
+  ),
+];
