@@ -95,9 +95,7 @@ lib/
 Crear una pantalla de inicio que muestre una lista de recetas mock usando ListView, conectada a un ViewModel con Provider. Esta es la base para la exploración de recetas.
 
 🧩 1. Estructura de archivos para esta fase
-vbnet
-Copy
-Edit
+
 lib/
 ├── presentation/
 │   ├── screens/
@@ -132,9 +130,6 @@ Agregar un campo de búsqueda y filtros simples al HomeScreen para refinar las r
 🧩 1. Estructura actualizada
 Añadimos:
 
-vbnet
-Copy
-Edit
 lib/
 ├── presentation/
 │   └── widgets/
