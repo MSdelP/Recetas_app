@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:receta_app/presentation/screens/favoritos_screen.dart';
-import 'package:receta_app/presentation/screens/historial_screen.dart';
-import 'package:receta_app/presentation/screens/home_screen.dart';
+import 'home_screen.dart';
+import 'favoritos_screen.dart';
+import 'historial_screen.dart';
+import 'account_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  const MainNavigationScreen({Key? key}) : super(key: key);
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -13,45 +14,29 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    FavoritosScreen(),
-    HistorialScreen(),
+  // No const aquí, para poder usar constructores no-const en las pantallas
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const FavoritosScreen(),
+    const HistorialScreen(),
+    const AccountScreen(),
   ];
 
-  final List<String> _titles = [
-    'Explorar Recetas',
-    'Favoritos',
-    'Historial',
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  void _onTap(int idx) => setState(() => _selectedIndex = idx);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_titles[_selectedIndex])),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        onTap: _onTap,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Explorar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favoritos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Historial',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favoritos'),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Historial'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Cuenta'),
         ],
       ),
     );

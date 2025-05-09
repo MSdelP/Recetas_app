@@ -1,44 +1,51 @@
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Servicio para favoritos e historial (stubs para compilar).
 class LocalStorageService {
-  static const _favoritosKey = 'favoritos';
-  static const _historialKey = 'historial';
+  static const String _favKey = 'favorites';
+  static const String _histKey = 'history';
 
-  Future<List<String>> getFavoritos() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_favoritosKey) ?? [];
-  }
+  Future<SharedPreferences> get _prefs async =>
+      SharedPreferences.getInstance();
 
-  Future<List<String>> getHistorial() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_historialKey) ?? [];
-  }
-
-  Future<void> toggleFavorito(String recetaId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final actuales = prefs.getStringList(_favoritosKey) ?? [];
-
-    if (actuales.contains(recetaId)) {
-      actuales.remove(recetaId);
+  /// Alterna un favorito (añade o quita).
+  Future<void> toggleFavorite(String id) async {
+    final prefs = await _prefs;
+    final favs = prefs.getStringList(_favKey) ?? [];
+    if (favs.contains(id)) {
+      favs.remove(id);
     } else {
-      actuales.add(recetaId);
+      favs.add(id);
     }
-
-    await prefs.setStringList(_favoritosKey, actuales);
+    await prefs.setStringList(_favKey, favs);
   }
 
-  Future<void> agregarAHistorial(String recetaId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final actuales = prefs.getStringList(_historialKey) ?? [];
+  /// Comprueba si una receta es favorita.
+  Future<bool> isFavorite(String id) async {
+    final prefs = await _prefs;
+    final favs = prefs.getStringList(_favKey) ?? [];
+    return favs.contains(id);
+  }
 
-    actuales.remove(recetaId); // evitar duplicados
-    actuales.insert(0, recetaId); // más reciente primero
+  /// Devuelve la lista de IDs favoritas.
+  Future<List<String>> getFavorites() async {
+    final prefs = await _prefs;
+    return prefs.getStringList(_favKey) ?? [];
+  }
 
-    if (actuales.length > 50) {
-      actuales.removeLast();
+  /// Añade un ID al historial (si no existía).
+  Future<void> addToHistory(String id) async {
+    final prefs = await _prefs;
+    final hist = prefs.getStringList(_histKey) ?? [];
+    if (!hist.contains(id)) {
+      hist.add(id);
+      await prefs.setStringList(_histKey, hist);
     }
+  }
 
-    await prefs.setStringList(_historialKey, actuales);
+  /// Devuelve la lista de IDs del historial.
+  Future<List<String>> getHistory() async {
+    final prefs = await _prefs;
+    return prefs.getStringList(_histKey) ?? [];
   }
 }

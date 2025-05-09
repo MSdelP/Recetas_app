@@ -1,101 +1,133 @@
-import 'package:flutter/foundation.dart';
-import 'package:receta_app/domain/entities/receta.dart';
-import 'package:receta_app/data/datasources/mock_recetas.dart';
-import 'package:receta_app/services/local_storage_service.dart';
+import 'package:flutter/material.dart';
+import '../../data/datasources/mock_recetas.dart';
+import '../../data/datasources/local_recetas.dart';
+import '../../data/models/receta_model.dart';
+import '../../services/local_storage_service.dart';
 
 class RecetaViewModel extends ChangeNotifier {
-  final _storage = LocalStorageService();
+  final LocalRecetasDatasource _localDs = LocalRecetasDatasource();
+  final LocalStorageService _storage = LocalStorageService();
 
-  List<Receta> _todas = [];
-  List<Receta> _visibles = [];
+  final List<RecetaModel> _todas = [];
+  List<RecetaModel> _visibles = [];
+  List<RecetaModel> get visibles => _visibles;
 
-  List<Receta> get recetas => _visibles;
-
-  String _busqueda = '';
-  String _dieta = 'Todas';
-  String _dificultad = 'Todas';
-  String _pais = 'Todos';
-
-  String get dieta => _dieta;
-  String get dificultad => _dificultad;
-  String get pais => _pais;
-
-  /// Retorna lista de países únicos desde las recetas (más opción 'Todos')
-  List<String> get paisesDisponibles {
-    final paisesUnicos = _todas.map((r) => r.pais).toSet().toList();
-    paisesUnicos.sort();
-    return ['Todos', ...paisesUnicos];
-  }
-
-  Set<String> favoritos = {};
-  Set<String> historial = {};
+  String _search = '';
+  String get busqueda => _search;
+  String _dietFilter = '';
+  String get dieta => _dietFilter;
+  String _difficultyFilter = '';
+  String get dificultad => _difficultyFilter;
+  String _countryFilter = '';
+  String get pais => _countryFilter;
 
   RecetaViewModel() {
-    cargarRecetas();
-    cargarFavoritosYHistorial();
+    _init();
   }
 
-  void cargarRecetas() {
-    _todas = recetasMock;
-    aplicarFiltros();
-  }
-
-  Future<void> cargarFavoritosYHistorial() async {
-    favoritos = (await _storage.getFavoritos()).toSet();
-    historial = (await _storage.getHistorial()).toSet();
+  Future<void> _init() async {
+    _todas.clear();
+    _todas.addAll(recetasMock);
+    final localList = await _localDs.loadRecetas();
+    _todas.addAll(localList);
+    _visibles = List.from(_todas);
     notifyListeners();
   }
 
-  void alternarFavorito(String recetaId) async {
-    await _storage.toggleFavorito(recetaId);
-    await cargarFavoritosYHistorial();
+  // getters para las opciones dinámicas de filtro
+  List<String> get dietasDisponibles =>
+      _todas.expand((r) => r.dietas).toSet().toList();
+  List<String> get dificultadesDisponibles =>
+      _todas.map((r) => r.dificultad).toSet().toList();
+  List<String> get paisesDisponibles =>
+      _todas.map((r) => r.pais).toSet().toList();
+
+  // ------------- filtros y búsqueda --------------
+
+  void setBusqueda(String q) {
+    _search = q;
+    _applyFilters();
   }
 
-  void agregarAHistorial(String recetaId) async {
-    await _storage.agregarAHistorial(recetaId);
-    await cargarFavoritosYHistorial();
+  void setDieta(String d) {
+    _dietFilter = d;
+    _applyFilters();
   }
 
-  bool esFavorita(String recetaId) {
-    return favoritos.contains(recetaId);
+  void setDificultad(String d) {
+    _difficultyFilter = d;
+    _applyFilters();
   }
 
-  void setBusqueda(String texto) {
-    _busqueda = texto.toLowerCase();
-    aplicarFiltros();
+  void setPais(String p) {
+    _countryFilter = p;
+    _applyFilters();
   }
 
-  void setDieta(String dieta) {
-    _dieta = dieta;
-    aplicarFiltros();
-  }
-
-  void setDificultad(String dificultad) {
-    _dificultad = dificultad;
-    aplicarFiltros();
-  }
-
-  void setPais(String pais) {
-    _pais = pais;
-    aplicarFiltros();
-  }
-
-  void aplicarFiltros() {
-    _visibles = _todas.where((receta) {
-      final coincideBusqueda = receta.titulo.toLowerCase().contains(_busqueda) ||
-          receta.ingredientes.any((i) => i.toLowerCase().contains(_busqueda));
-
-      final coincideDieta =
-          _dieta == 'Todas' || receta.dietas.contains(_dieta.toLowerCase());
-
-      final coincideDificultad =
-          _dificultad == 'Todas' || receta.dificultad == _dificultad.toLowerCase();
-
-      final coincidePais = _pais == 'Todos' || receta.pais == _pais;
-
-      return coincideBusqueda && coincideDieta && coincideDificultad && coincidePais;
+  void _applyFilters() {
+    _visibles = _todas.where((r) {
+      if (_search.isNotEmpty &&
+          !r.titulo.toLowerCase().contains(_search.toLowerCase())) {
+        return false;
+      }
+      if (_dietFilter.isNotEmpty && !r.dietas.contains(_dietFilter)) {
+        return false;
+      }
+      if (_difficultyFilter.isNotEmpty && r.dificultad != _difficultyFilter) {
+        return false;
+      }
+      if (_countryFilter.isNotEmpty && r.pais != _countryFilter) {
+        return false;
+      }
+      return true;
     }).toList();
-
     notifyListeners();
+  }
+
+  // ------------- CRUD recetas de usuario --------------
+
+  Future<void> addReceta(RecetaModel receta) async {
+    await _localDs.addReceta(receta);
+    _todas.add(receta);
+    _applyFilters();
+  }
+
+  Future<void> updateReceta(RecetaModel receta) async {
+    await _localDs.updateReceta(receta);
+    final idx = _todas.indexWhere((r) => r.id == receta.id);
+    if (idx != -1) {
+      _todas[idx] = receta;
+      _applyFilters();
+    }
+  }
+
+  Future<void> deleteReceta(String id) async {
+    await _localDs.deleteReceta(id);
+    _todas.removeWhere((r) => r.id == id);
+    _applyFilters();
+  }
+
+  // ------------- favoritos e historial --------------
+
+  Future<void> toggleFavorite(String id) async {
+    await _storage.toggleFavorite(id);
+    notifyListeners();
+  }
+
+  Future<bool> isFavorite(String id) async {
+    return _storage.isFavorite(id);
+  }
+
+  Future<void> addToHistory(String id) async {
+    await _storage.addToHistory(id);
+    notifyListeners();
+  }
+
+  Future<List<String>> getFavoriteIds() async {
+    return _storage.getFavorites();
+  }
+
+  Future<List<String>> getHistoryIds() async {
+    return _storage.getHistory();
   }
 }

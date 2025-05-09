@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:receta_app/domain/entities/receta.dart';
-import 'package:receta_app/presentation/screens/receta_detalle_screen.dart';
-
+import '../../data/models/receta_model.dart';
+import '../screens/receta_detalle_screen.dart';
 
 class RecetaItem extends StatelessWidget {
-  final Receta receta;
-
+  final RecetaModel receta;
   const RecetaItem({Key? key, required this.receta}) : super(key: key);
 
   @override
@@ -21,10 +19,9 @@ class RecetaItem extends StatelessWidget {
           errorBuilder: (_, __, ___) => const Icon(Icons.image),
         ),
         title: Text(receta.titulo),
-        subtitle: Text('${receta.tiempoMinutos} min • ${receta.dificultad}'),
-        trailing: Icon(Icons.chevron_right),
+        subtitle: Text('${receta.tiempoMinutos} min · ${receta.dificultad}'),
+        trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          // Aquí luego irá la navegación al detalle
           Navigator.push(
             context,
             MaterialPageRoute(
