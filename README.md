@@ -61,7 +61,7 @@ lib/
 │   ├── screens/       →
 │   │   • `main_navigation_screen.dart`
 │   │   • `home_screen.dart` (+ filtros)
-│   │   • `receta_detalle_screen.dart` (image errorBuilder)
+│   │   • `receta_detalle_screen.dart` 
 │   │   • `receta_form_screen.dart` (crear/editar)
 │   │   • `favoritos_screen.dart`
 │   │   • `historial_screen.dart`
