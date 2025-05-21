@@ -47,7 +47,7 @@ SharedPreferences para persistencia local
 Material 3 para componentes UI
 
 🗂️ Estructura del Proyecto
-
+```
 lib/
 ├── core/              → Temas, constantes y utilidades globales (`theme.dart` con `appTheme`).
 ├── data/
@@ -68,14 +68,15 @@ lib/
 │   │   • `login_screen.dart`, `register_screen.dart`, `account_screen.dart`
 │   └── widgets/       → `receta_item.dart`, `receta_filters.dart`.
 └── main.dart          → Configuración de rutas y Providers.
+```
 
 🚀 Cómo Ejecutar el Proyecto
 
 Clona el repositorio:
-
-git clone <tu-repo-url>
+```
+git clone [<tu-repo-url>](https://github.com/MSdelP/Recetas_app)
 cd Receta_APP
-
+```
 Instala dependencias:
 
 flutter pub get
@@ -87,6 +88,29 @@ flutter pub get
 flutter run
 ```
 Nota: Ajusta en android/app/build.gradle.kts la propiedad ndkVersion si aparece un conflicto de NDK.
+
+📱 Para lanzarlo en tu móvil
+
+1. Habilita las Opciones de Desarrollador y USB Debugging
+En tu móvil ve a Ajustes → Acerca del teléfono y pulsa “Número de compilación” 7 veces hasta que te diga “¡Eres desarrollador!”.
+
+Vuelve a Ajustes y entra en Opciones de desarrollador (o “Programador”), activa Depuración USB.
+
+Conecta el cable USB; en la notificación de “Cargando por USB” selecciona Transferencia de archivos (MTP) o directamente el modo Depuración USB si tu ROM lo ofrece.
+
+2. Instala las herramientas ADB en Arch (ajusta el paquete a tu SO)
+```
+sudo pacman -Syu android-tools
+```
+Esto te proporcionará el comando adb.
+
+3. Comprueba que adb vea tu dispositivo
+En un terminal ejecuta:
+```
+adb start-server
+adb devices
+```
+Deberías ver un listado con el serial de tu móvil y el estado device. Si aparece vacío o unauthorized, desbloquea la pantalla del móvil y acepta la clave RSA que te pide.
 
 🛡️ Estado Actual y Próximos Pasos
 
