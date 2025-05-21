@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../viewmodels/receta_viewmodel.dart';
 
 class RecetaFilters extends StatelessWidget {
-  const RecetaFilters({Key? key}) : super(key: key);
+  const RecetaFilters({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +25,12 @@ class RecetaFilters extends StatelessWidget {
               Expanded(
                 child: DropdownButton<String>(
                   isExpanded: true,
-                  value: vm.dieta.isEmpty ? null : vm.dieta,
+                  value: vm.dieta.isEmpty ? '' : vm.dieta,
                   hint: const Text('Dieta'),
-                  items: vm.dietasDisponibles
-                      .map((d) => DropdownMenuItem(value: d, child: Text(d)))
-                      .toList(),
+                  items: [
+                    const DropdownMenuItem(value: '', child: Text('— Todas —')),
+                    for (var d in vm.dietasDisponibles) DropdownMenuItem(value: d, child: Text(d)),
+                  ],
                   onChanged: (v) => vm.setDieta(v ?? ''),
                 ),
               ),
@@ -37,11 +38,12 @@ class RecetaFilters extends StatelessWidget {
               Expanded(
                 child: DropdownButton<String>(
                   isExpanded: true,
-                  value: vm.dificultad.isEmpty ? null : vm.dificultad,
+                  value: vm.dificultad.isEmpty ? '' : vm.dificultad,
                   hint: const Text('Dificultad'),
-                  items: vm.dificultadesDisponibles
-                      .map((d) => DropdownMenuItem(value: d, child: Text(d)))
-                      .toList(),
+                  items: [
+                    const DropdownMenuItem(value: '', child: Text('— Todas —')),
+                    for (var d in vm.dificultadesDisponibles) DropdownMenuItem(value: d, child: Text(d)),
+                  ],
                   onChanged: (v) => vm.setDificultad(v ?? ''),
                 ),
               ),
@@ -49,11 +51,12 @@ class RecetaFilters extends StatelessWidget {
               Expanded(
                 child: DropdownButton<String>(
                   isExpanded: true,
-                  value: vm.pais.isEmpty ? null : vm.pais,
+                  value: vm.pais.isEmpty ? '' : vm.pais,
                   hint: const Text('País'),
-                  items: vm.paisesDisponibles
-                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                      .toList(),
+                  items: [
+                    const DropdownMenuItem(value: '', child: Text('— Todas —')),
+                    for (var c in vm.paisesDisponibles) DropdownMenuItem(value: c, child: Text(c)),
+                  ],
                   onChanged: (v) => vm.setPais(v ?? ''),
                 ),
               ),

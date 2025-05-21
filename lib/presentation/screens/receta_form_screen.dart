@@ -81,14 +81,28 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
       id: _id,
       titulo: _titulo,
       descripcion: _descripcion,
-      ingredientes: _ingredientes.split(',').map((s) => s.trim()).toList(),
-      pasos: _pasos.split('\n').map((s) => s.trim()).toList(),
+      ingredientes: _ingredientes
+          .split(',')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList(),
+      pasos: _pasos
+          .split('\n')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList(),
       imagenUrl: _imagenUrl,
       tiempoMinutos: int.tryParse(_tiempoMinutos) ?? 0,
       dificultad: _dificultad,
       tipoComida: _tipoComida,
-      dietas: _dietas.split(',').map((s) => s.trim()).toList(),
-      autor: Provider.of<AuthViewModel>(context, listen: false).user!.username,
+      dietas: _dietas
+          .split(',')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList(),
+      autor: Provider.of<AuthViewModel>(context, listen: false)
+          .user!
+          .username,
       valoracion: widget.receta?.valoracion ?? 0.0,
       calorias: widget.receta?.calorias ?? 0,
       creadaEn: _creadaEn,
@@ -129,13 +143,15 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
               ),
               TextFormField(
                 initialValue: _ingredientes,
-                decoration: InputDecoration(labelText: 'Ingredientes (separados por coma)'),
+                decoration: InputDecoration(
+                    labelText: 'Ingredientes (separados por coma)'),
                 maxLines: 2,
                 onSaved: (v) => _ingredientes = v ?? '',
               ),
               TextFormField(
                 initialValue: _pasos,
-                decoration: InputDecoration(labelText: 'Pasos (una línea por paso)'),
+                decoration:
+                InputDecoration(labelText: 'Pasos (una línea por paso)'),
                 maxLines: 3,
                 onSaved: (v) => _pasos = v ?? '',
               ),
@@ -174,7 +190,8 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Fecha creación: ${_creadaEn.toLocal().toString().split(' ')[0]}'),
+                    child: Text(
+                        'Fecha creación: ${_creadaEn.toLocal().toString().split(' ')[0]}'),
                   ),
                   TextButton(onPressed: _pickDate, child: Text('Cambiar')),
                 ],

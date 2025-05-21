@@ -81,9 +81,11 @@ Instala dependencias:
 flutter pub get
 
 Corre en dispositivo o emulador:
-
+```
+flutter clean
+flutter pub get
 flutter run
-
+```
 Nota: Ajusta en android/app/build.gradle.kts la propiedad ndkVersion si aparece un conflicto de NDK.
 
 🛡️ Estado Actual y Próximos Pasos
