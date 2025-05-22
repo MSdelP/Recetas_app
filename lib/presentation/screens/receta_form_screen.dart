@@ -6,7 +6,6 @@ import '../viewmodels/auth_viewmodel.dart';
 
 class RecetaFormScreen extends StatefulWidget {
   static const routeName = '/receta-form';
-  /// Si viene una receta, estamos editando; si no, creamos.
   final RecetaModel? receta;
   const RecetaFormScreen({super.key, this.receta});
 
@@ -34,7 +33,6 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
     super.initState();
     final r = widget.receta;
     if (r != null) {
-      // Editando
       _id = r.id;
       _titulo = r.titulo;
       _descripcion = r.descripcion;
@@ -48,7 +46,6 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
       _pais = r.pais;
       _creadaEn = r.creadaEn;
     } else {
-      // Nueva
       _id = DateTime.now().millisecondsSinceEpoch.toString();
       _titulo = '';
       _descripcion = '';
@@ -121,7 +118,9 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
   Widget build(BuildContext context) {
     final isEditing = widget.receta != null;
     return Scaffold(
-      appBar: AppBar(title: Text(isEditing ? 'Editar receta' : 'Nueva receta')),
+      appBar: AppBar(
+        title: Text(isEditing ? 'Editar receta' : 'Nueva receta'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -132,66 +131,77 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
               TextFormField(
                 initialValue: _titulo,
                 decoration: InputDecoration(labelText: 'Título'),
-                validator: (v) => v == null || v.isEmpty ? 'Requerido' : null,
-                onSaved: (v) => _titulo = v!,
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _titulo = v!.trim(),
               ),
               TextFormField(
                 initialValue: _descripcion,
                 decoration: InputDecoration(labelText: 'Descripción'),
                 maxLines: 2,
-                onSaved: (v) => _descripcion = v ?? '',
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _descripcion = v!.trim(),
               ),
               TextFormField(
                 initialValue: _ingredientes,
-                decoration: InputDecoration(
-                    labelText: 'Ingredientes (separados por coma)'),
+                decoration: InputDecoration(labelText: 'Ingredientes (separados por coma)'),
                 maxLines: 2,
-                onSaved: (v) => _ingredientes = v ?? '',
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _ingredientes = v!.trim(),
               ),
               TextFormField(
                 initialValue: _pasos,
-                decoration:
-                InputDecoration(labelText: 'Pasos (una línea por paso)'),
+                decoration: InputDecoration(labelText: 'Pasos (una línea por paso)'),
                 maxLines: 3,
-                onSaved: (v) => _pasos = v ?? '',
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _pasos = v!.trim(),
               ),
               TextFormField(
                 initialValue: _imagenUrl,
-                decoration: InputDecoration(labelText: 'URL de imagen'),
-                onSaved: (v) => _imagenUrl = v ?? '',
+                decoration: InputDecoration(labelText: 'URL de imagen (opcional)'),
+                onSaved: (v) => _imagenUrl = v?.trim() ?? '',
               ),
               TextFormField(
                 initialValue: _tiempoMinutos,
                 decoration: InputDecoration(labelText: 'Tiempo (minutos)'),
                 keyboardType: TextInputType.number,
-                onSaved: (v) => _tiempoMinutos = v ?? '0',
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) return 'Requerido';
+                  if (int.tryParse(v.trim()) == null) return 'Número inválido';
+                  return null;
+                },
+                onSaved: (v) => _tiempoMinutos = v!.trim(),
               ),
               TextFormField(
                 initialValue: _dificultad,
                 decoration: InputDecoration(labelText: 'Dificultad'),
-                onSaved: (v) => _dificultad = v ?? '',
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _dificultad = v!.trim(),
               ),
               TextFormField(
                 initialValue: _tipoComida,
                 decoration: InputDecoration(labelText: 'Tipo de comida'),
-                onSaved: (v) => _tipoComida = v ?? '',
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _tipoComida = v!.trim(),
               ),
               TextFormField(
                 initialValue: _dietas,
-                decoration: InputDecoration(labelText: 'Dietas (coma)'),
-                onSaved: (v) => _dietas = v ?? '',
+                decoration: InputDecoration(labelText: 'Dietas (separadas por coma)'),
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _dietas = v!.trim(),
               ),
               TextFormField(
                 initialValue: _pais,
                 decoration: InputDecoration(labelText: 'País'),
-                onSaved: (v) => _pais = v ?? '',
+                validator: (v) => v == null || v.trim().isEmpty ? 'Requerido' : null,
+                onSaved: (v) => _pais = v!.trim(),
               ),
               const SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
                     child: Text(
-                        'Fecha creación: ${_creadaEn.toLocal().toString().split(' ')[0]}'),
+                      'Fecha creación: ${_creadaEn.toLocal().toString().split(' ')[0]}',
+                    ),
                   ),
                   TextButton(onPressed: _pickDate, child: Text('Cambiar')),
                 ],
