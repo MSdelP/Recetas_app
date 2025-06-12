@@ -4,6 +4,8 @@ import '../viewmodels/auth_viewmodel.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
+
+  const LoginScreen({super.key});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -18,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Iniciar sesión')),
+      appBar: AppBar(title: const Text('Iniciar sesión')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -26,28 +28,28 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               if (_errorText != null)
-                Text(_errorText!, style: TextStyle(color: Colors.red)),
+                Text(_errorText!, style: const TextStyle(color: Colors.red)),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Usuario'),
+                decoration: const InputDecoration(labelText: 'Usuario'),
                 validator: (v) => v == null || v.isEmpty ? 'Requerido' : null,
                 onSaved: (v) => _username = v!.trim(),
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Contraseña'),
+                decoration: const InputDecoration(labelText: 'Contraseña'),
                 obscureText: true,
                 validator: (v) => v == null || v.isEmpty ? 'Requerido' : null,
                 onSaved: (v) => _password = v!.trim(),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               _loading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                 onPressed: _submit,
-                child: Text('Entrar'),
+                child: const Text('Entrar'),
               ),
               TextButton(
                 onPressed: () => Navigator.pushNamed(context, '/register'),
-                child: Text('¿No tienes cuenta? Regístrate'),
+                child: const Text('¿No tienes cuenta? Regístrate'),
               ),
             ],
           ),

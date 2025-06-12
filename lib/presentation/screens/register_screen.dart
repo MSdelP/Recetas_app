@@ -4,6 +4,8 @@ import '../viewmodels/auth_viewmodel.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/register';
+
+  const RegisterScreen({super.key});
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -18,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registro')),
+      appBar: AppBar(title: const Text('Registro')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -26,24 +28,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               if (_errorText != null)
-                Text(_errorText!, style: TextStyle(color: Colors.red)),
+                Text(_errorText!, style: const TextStyle(color: Colors.red)),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Usuario'),
+                decoration: const InputDecoration(labelText: 'Usuario'),
                 validator: (v) => v == null || v.isEmpty ? 'Requerido' : null,
                 onSaved: (v) => _username = v!.trim(),
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Contraseña'),
+                decoration: const InputDecoration(labelText: 'Contraseña'),
                 obscureText: true,
                 validator: (v) => v == null || v.isEmpty ? 'Requerido' : null,
                 onSaved: (v) => _password = v!.trim(),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               _loading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                 onPressed: _submit,
-                child: Text('Crear cuenta'),
+                child: const Text('Crear cuenta'),
               ),
             ],
           ),

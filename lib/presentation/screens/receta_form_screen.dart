@@ -131,19 +131,19 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
             children: [
               TextFormField(
                 initialValue: _titulo,
-                decoration: InputDecoration(labelText: 'Título'),
+                decoration: const InputDecoration(labelText: 'Título'),
                 validator: (v) => v == null || v.isEmpty ? 'Requerido' : null,
                 onSaved: (v) => _titulo = v!,
               ),
               TextFormField(
                 initialValue: _descripcion,
-                decoration: InputDecoration(labelText: 'Descripción'),
+                decoration: const InputDecoration(labelText: 'Descripción'),
                 maxLines: 2,
                 onSaved: (v) => _descripcion = v ?? '',
               ),
               TextFormField(
                 initialValue: _ingredientes,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: 'Ingredientes (separados por coma)'),
                 maxLines: 2,
                 onSaved: (v) => _ingredientes = v ?? '',
@@ -151,39 +151,39 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
               TextFormField(
                 initialValue: _pasos,
                 decoration:
-                InputDecoration(labelText: 'Pasos (una línea por paso)'),
+                const InputDecoration(labelText: 'Pasos (una línea por paso)'),
                 maxLines: 3,
                 onSaved: (v) => _pasos = v ?? '',
               ),
               TextFormField(
                 initialValue: _imagenUrl,
-                decoration: InputDecoration(labelText: 'URL de imagen'),
+                decoration: const InputDecoration(labelText: 'URL de imagen'),
                 onSaved: (v) => _imagenUrl = v ?? '',
               ),
               TextFormField(
                 initialValue: _tiempoMinutos,
-                decoration: InputDecoration(labelText: 'Tiempo (minutos)'),
+                decoration: const InputDecoration(labelText: 'Tiempo (minutos)'),
                 keyboardType: TextInputType.number,
                 onSaved: (v) => _tiempoMinutos = v ?? '0',
               ),
               TextFormField(
                 initialValue: _dificultad,
-                decoration: InputDecoration(labelText: 'Dificultad'),
+                decoration: const InputDecoration(labelText: 'Dificultad'),
                 onSaved: (v) => _dificultad = v ?? '',
               ),
               TextFormField(
                 initialValue: _tipoComida,
-                decoration: InputDecoration(labelText: 'Tipo de comida'),
+                decoration: const InputDecoration(labelText: 'Tipo de comida'),
                 onSaved: (v) => _tipoComida = v ?? '',
               ),
               TextFormField(
                 initialValue: _dietas,
-                decoration: InputDecoration(labelText: 'Dietas (coma)'),
+                decoration: const InputDecoration(labelText: 'Dietas (coma)'),
                 onSaved: (v) => _dietas = v ?? '',
               ),
               TextFormField(
                 initialValue: _pais,
-                decoration: InputDecoration(labelText: 'País'),
+                decoration: const InputDecoration(labelText: 'País'),
                 onSaved: (v) => _pais = v ?? '',
               ),
               const SizedBox(height: 12),
@@ -193,7 +193,7 @@ class _RecetaFormScreenState extends State<RecetaFormScreen> {
                     child: Text(
                         'Fecha creación: ${_creadaEn.toLocal().toString().split(' ')[0]}'),
                   ),
-                  TextButton(onPressed: _pickDate, child: Text('Cambiar')),
+                  TextButton(onPressed: _pickDate, child: const Text('Cambiar')),
                 ],
               ),
               const SizedBox(height: 24),

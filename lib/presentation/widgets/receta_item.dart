@@ -4,7 +4,7 @@ import '../screens/receta_detalle_screen.dart';
 
 class RecetaItem extends StatelessWidget {
   final RecetaModel receta;
-  const RecetaItem({Key? key, required this.receta}) : super(key: key);
+  const RecetaItem({super.key, required this.receta});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import '../viewmodels/receta_viewmodel.dart';
 import '../widgets/receta_item.dart';
 
 class FavoritosScreen extends StatelessWidget {
-  const FavoritosScreen({Key? key}) : super(key: key);
+  const FavoritosScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import '../viewmodels/receta_viewmodel.dart';
 import '../widgets/receta_item.dart';
 
 class HistorialScreen extends StatelessWidget {
-  const HistorialScreen({Key? key}) : super(key: key);
+  const HistorialScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
