@@ -113,7 +113,7 @@ final List<RecetaModel> recetasMock = [
       'Formar bolas y freír en aceite caliente',
       'Escurrir y servir con salsa de yogur'
     ],
-    imagenUrl: '',
+    imagenUrl: 'https://recetasbyoumbilal.com/wp-content/uploads/2023/12/IMG_6677-800x530.jpg',
     tiempoMinutos: 45,
     dificultad: 'media',
     tipoComida: 'aperitivo',
@@ -181,7 +181,7 @@ final List<RecetaModel> recetasMock = [
       'Aliñar lechuga con la salsa',
       'Espolvorear crutones y parmesano'
     ],
-    imagenUrl: 'https://www.goodnes.com/sites/g/files/jgfbjl321/files/srh_recipes/755f697272cbcdc6e5df2adb44b1b705.jpg',
+    imagenUrl: 'https://www.recetasderechupete.com/wp-content/uploads/2020/10/Ensalada-Cesar-final_-1200x828.jpg',
     tiempoMinutos: 15,
     dificultad: 'baja',
     tipoComida: 'entrada',
